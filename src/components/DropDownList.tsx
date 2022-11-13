@@ -24,6 +24,7 @@ const DropDownList: React.FC = () => {
   const [school, setSchool] = useState((selectedSchool && selectedSchool.length >1 && typeof selectedSchool !== 'string') ? 'Allschools' : selectedSchool);
 
   const handleSearch = () => {
+    
     navigate({
       pathname: "/chart",
       search: `?country=${country}&camp=${camp}&school=${school}`,
