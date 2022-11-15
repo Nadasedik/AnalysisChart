@@ -6,16 +6,19 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './strore';
+import { ThemeProvider } from './strore/theme-context';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
+  <ThemeProvider>
   <BrowserRouter>
   <Provider store={store}>
     <App />
     </Provider>
   </BrowserRouter>
+    </ThemeProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

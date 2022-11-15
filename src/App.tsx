@@ -6,7 +6,7 @@ import Details from "./components/Details";
 function App() {
   
   return (
-    <Routes>
+    <Routes >
       <Route path="/chart" element={<Chart />} />
       <Route path="/details" element={<Details />} />
       {/* <Route path=":search" element={<AnalysisChart />} /> */}

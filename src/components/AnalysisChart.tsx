@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useContext} from 'react'
 import {
     Chart,
     CategoryScale,
@@ -18,6 +18,7 @@ import { clear, getLessons } from '../strore/CountriesSlice';
 import { Months } from '../types/Months';
 import { getElementAtEvent } from 'react-chartjs-2';
 import TotalLessons from './TotalLessons';
+import { ThemeContext } from '../strore/theme-context';
 
   Chart.register(
     CategoryScale,
@@ -26,44 +27,65 @@ import TotalLessons from './TotalLessons';
     LineElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
   );
   
-  export const options = { 
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-        labels: {
-                font: {
-                    size: 16,
-                    weight: 'bold',
-                },
-                padding: 35,
-                pointStyle: 'circle'
-              },
-              align: 'start' as const,
-      },
-      title: {
-        display: true,
-            text: 'No of Lessons',    
-            position: 'top'  as const,
-            align: 'start' as const ,
-            font: {
-              size: 14,
-              weight: 'bold'
-          },
-          padding: {
-                bottom: 30
-              }
-      }
+//   export const options = { 
+//     responsive: true,
+//     plugins: {
+//       legend: {
+//         position: 'top' as const,
+//         labels: {
+//                 font: {
+//                     size: 16,
+//                     weight: 'bold',
+//                     color:'yellow'
+//                 },
+//                 padding: 35,
+//                 pointStyle: 'circle'
+//               },
+//               align: 'start' as const,
+//               color:'blue'
+//       },
+//       title: {
+//         display: true,
+//             text: 'No of Lessons',    
+//             position: 'top'  as const,
+//             align: 'start' as const ,
+//             font: {
+//               size: 14,
+//               weight: 'bold'
+//           },
+//           // color: 'red',
+//           padding: {
+//                 bottom: 30
+//               }
+//       }
     
-  },
-}
+//   },
+//   scales: {
+//     x: {
+//       grid: {
+//         borderColor: 'green',
+//         color:'blue'
+//       },
+//       ticks: { color: 'red'}
+//     },
+//     y: {
+//       grid: {
+//         borderColor: 'green',
+//         color:'blue'
+//       },
+//        ticks: { color: 'red'}
+//     },
+//   }
+// }
 
   
 const AnalysisChart:React.FC = () => {
 
+
+  const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
   const  chartRef = useRef<any>();
   const location = useLocation()
@@ -91,13 +113,66 @@ const AnalysisChart:React.FC = () => {
   datasets: selectorChartData.map(item=> ({
     pointStyle: 'circle',
       pointRadius: 10,
-      pointHoverRadius: 15,
+      pointHoverRadius: 20,
     label: item.schoolName ,
     data: item.scLessons,
     borderColor:'#'+Math.floor(Math.random()*16777215).toString(16),
     spanGaps: true,
   })),
 };
+
+const options = { 
+  responsive: true,
+  maintainAspectRatio: false,
+
+  plugins: {
+    legend: {
+      position: 'top' as const,
+      labels: {
+              font: {
+                  size: 16,
+                  weight: 'bold',
+                  color:'yellow'
+              },
+              padding: 40,
+              pointStyle: 'circle'
+            },
+            align: 'start' as const,
+            color:'blue'
+    },
+    title: {
+      display: true,
+          text: 'No of Lessons',    
+          position: 'top'  as const,
+          align: 'start' as const ,
+          font: {
+            size: 14,
+            weight: 'bold'
+        },
+        color: theme === 'dark' ? '#747575' : '#dce0e6',
+        padding: {
+              bottom: 20
+            }
+    }
+  
+},
+scales: {
+  x: {
+    grid: {
+      borderColor: theme === 'dark' ? '#dce0e6' : '#343536',
+      color: theme === 'dark' ? '#dce0e6' : '#343536'
+    },
+    ticks: { color: theme === 'dark' ? 'black' : 'white'}
+  },
+  y: {
+    grid: {
+      borderColor: theme === 'dark' ? '#dce0e6' : '#343536',
+      color:theme === 'dark' ? '#dce0e6' : '#343536'
+    },
+     ticks: { color: theme === 'dark' ? 'black' : 'white'}
+  },
+}
+}
 
 const handleClick = (e:React.MouseEvent<HTMLCanvasElement>) => { 
 
@@ -120,7 +195,7 @@ const handleClick = (e:React.MouseEvent<HTMLCanvasElement>) => {
   }
 }
   return (
-    <div className="container-sm d-flex justify-content-center">
+    <div className="container-sm d-flex justify-content-center" style={{'backgroundColor': theme === 'light' ? 'black': 'white','color': theme === 'light' ? 'white': 'black'}}>
       <div className='col-10'>
       <Line options={options} data={data} onClick={handleClick} ref ={chartRef} />
       </div>
