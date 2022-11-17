@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import "react-widgets/styles.css";
 import DropdownList from "react-widgets/DropdownList";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../strore";
-import { clear, getCamps, getCountries, getSchools } from "../strore/CountriesSlice";
+import { AppDispatch, RootState } from "../store";
+import { clear, getCamps, getCountries, getSchools } from "../store/CountriesSlice";
+import { useTranslation } from "react-i18next";
 
 const DropDownList: React.FC = () => {
 
@@ -58,6 +59,8 @@ const DropDownList: React.FC = () => {
     }
   }, [dispatch]);
 
+  const { t } = useTranslation()
+
   return (
     <>
       <br />
@@ -75,7 +78,7 @@ const DropDownList: React.FC = () => {
             <div className="row">
               <div className="col">
                 <p>
-                  Select Country: <strong>{country}</strong>
+                  {t('Select_Country')} : <strong>{country}</strong>
                 </p>
                 <DropdownList
                   value={country}
@@ -88,7 +91,7 @@ const DropDownList: React.FC = () => {
               </div>
               <div className="col">
                 <p>
-                  Select Camp: <strong>{camp}</strong>
+                {t('Select_Camp')} : <strong>{camp}</strong>
                 </p>
                 <DropdownList
                   value={camp}
@@ -101,7 +104,7 @@ const DropDownList: React.FC = () => {
               </div>
               <div className="col">
                 <p>
-                  Select School: <strong>{school}</strong>
+                {t('Select_School')} : <strong>{school}</strong>
                 </p>
                 <DropdownList
                   value={school}
@@ -116,7 +119,7 @@ const DropDownList: React.FC = () => {
               className="btn btn-primary"
               onClick={handleSearch}
             >
-              search
+              {t('Search')}
             </button>
           </div>
         </>

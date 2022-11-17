@@ -11,14 +11,15 @@ import {
   } from 'chart.js';
   import { Line } from 'react-chartjs-2';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../strore';
+import { AppDispatch, RootState } from '../store';
 import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
-import { clear, getLessons } from '../strore/CountriesSlice';
+import { clear, getLessons } from '../store/CountriesSlice';
 import { Months } from '../types/Months';
 import { getElementAtEvent } from 'react-chartjs-2';
 import TotalLessons from './TotalLessons';
-import { ThemeContext } from '../strore/theme-context';
+import { ThemeContext } from '../store/theme-context';
+import { useTranslation } from 'react-i18next';
 
   Chart.register(
     CategoryScale,
@@ -30,68 +31,18 @@ import { ThemeContext } from '../strore/theme-context';
     Legend,
   );
   
-//   export const options = { 
-//     responsive: true,
-//     plugins: {
-//       legend: {
-//         position: 'top' as const,
-//         labels: {
-//                 font: {
-//                     size: 16,
-//                     weight: 'bold',
-//                     color:'yellow'
-//                 },
-//                 padding: 35,
-//                 pointStyle: 'circle'
-//               },
-//               align: 'start' as const,
-//               color:'blue'
-//       },
-//       title: {
-//         display: true,
-//             text: 'No of Lessons',    
-//             position: 'top'  as const,
-//             align: 'start' as const ,
-//             font: {
-//               size: 14,
-//               weight: 'bold'
-//           },
-//           // color: 'red',
-//           padding: {
-//                 bottom: 30
-//               }
-//       }
-    
-//   },
-//   scales: {
-//     x: {
-//       grid: {
-//         borderColor: 'green',
-//         color:'blue'
-//       },
-//       ticks: { color: 'red'}
-//     },
-//     y: {
-//       grid: {
-//         borderColor: 'green',
-//         color:'blue'
-//       },
-//        ticks: { color: 'red'}
-//     },
-//   }
-// }
+
 
   
 const AnalysisChart:React.FC = () => {
-
 
   const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
   const  chartRef = useRef<any>();
   const location = useLocation()
+  const { t } = useTranslation()
 
     const value = queryString.parse(location.search);
-
 
     const selectorChartData = useSelector((state:RootState) => state.Countries.chartData)
 
@@ -142,7 +93,7 @@ const options = {
     },
     title: {
       display: true,
-          text: 'No of Lessons',    
+          text: t('No_of_Lessons'),    
           position: 'top'  as const,
           align: 'start' as const ,
           font: {
@@ -196,7 +147,7 @@ const handleClick = (e:React.MouseEvent<HTMLCanvasElement>) => {
 }
   return (
     <div className="container-sm d-flex justify-content-center" style={{'backgroundColor': theme === 'light' ? 'black': 'white','color': theme === 'light' ? 'white': 'black'}}>
-      <div className='col-10'>
+      <div className='col-10 mx-2'>
       <Line options={options} data={data} onClick={handleClick} ref ={chartRef} />
       </div>
       <TotalLessons selectorChartData = {selectorChartData}/>      
